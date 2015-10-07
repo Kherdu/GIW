@@ -1,11 +1,13 @@
-# -*- coding: utf8 -*-
+# -*- coding: cp1252 -*-
 #Crear un programa que simule una agenda personal que almacena de cada contacto el nombre,
-#apellidos y tel√©fono. La agenda se almacena en un fichero de texto agenda.txt. Cada contacto
-#ocupar√° 4 l√≠neas del fichero. La agenda tendr√° las siguientes funciones:
+#apellidos y telÈfono. La agenda se almacena en un fichero de texto agenda.txt. Cada contacto
+#ocupar· 4 lÌneas del fichero. La agenda tendr· las siguientes funciones:
 #Crear entrada.
 #Borrar entrada.
-#Buscar entrada por nombre, apellido o tel√©fono.
+#Buscar entrada por nombre, apellido o telÈfono.
 #Cargar entrada.
+
+listado = 'agenda.txt'
 
 def crearEntrada():
     
@@ -14,30 +16,30 @@ def crearEntrada():
     apellido2= raw_input('Introduzca segundo apellido: ')
     telefono= raw_input('Introduzca telefono: ')
     old=''
+    
     try:
-        fichero=open('agenda.txt')
+        fichero=open(listado)
         old=fichero.read()
         fichero.close()
     except:
         print('Fichero agenda.txt no encontrado')
         
-    fichero=open('agenda.txt', 'w')
+    fichero=open(listado, 'w')
     new=old+telefono+'\n'+name+'\n'+apellido1+'\n'+apellido2+'\n'
     fichero.write(new)
     fichero.close()
 
-    print('\nContacto a√±adido:\n\tNombre: '+name+'\n\tApellido1: '+apellido1+
+    print('\nContacto aÒadido:\n\tNombre: '+name+'\n\tApellido1: '+apellido1+
           '\n\tApellido2: '+apellido2+'\n\tTelefono: '+telefono)
     
     
 
 def borrarEntrada():
     
-    
     tel= raw_input('Introduzca el telefono del contacto a borrar: ')
    
     try:
-        fichero=open('agenda.txt')
+        fichero=open(listado)
         cont = 0
         new = ''
         find = False
@@ -53,7 +55,7 @@ def borrarEntrada():
         print('Fichero agenda.txt no encontrado')
 
     if find:
-        fichero=open('agenda.txt','w')
+        fichero=open(listado,'w')
         fichero.write(new)
         fichero.close()
         print('\n\tSe ha eliminado el contacto con numero: '+tel)
@@ -62,33 +64,43 @@ def borrarEntrada():
         
     
 def buscar():
-    dato= raw_input('Introduzca un dato del contacto: ')
+    
+    dato= raw_input('\nIntroduzca un dato del contacto: ')
+    
     find=False
     nombre=''
     apellido1=''
     apellido2=''
     telefono=''
+    
     try:
-        fichero=open('agenda.txt')
+        
+        fichero = open(listado)
+        
         for linea in fichero:
-            telefono=next(fichero)
+            telefono=linea
             nombre=next(fichero)
             apellido1=next(fichero)
             apellido2=next(fichero)
-            if telefono==dato or apellido1==dato or nombre==dato:
+
+            if telefono.find(dato) != -1 or apellido1.find(dato) != -1 or nombre.find(dato) != -1:
                 find=True
-                break
-        if find:
-            print('Contacto encontrado: \n\tNombre: '+nombre+'\n\tApellido1: '+apellido1+
-          '\n\tApellido2: '+apellido2+'\n\tTelefono: '+telefono)              
-        else:
-            print('Contacto no encontrado')
+                print('\nContacto encontrado: \n\tNombre: '+nombre+
+                      '\tApellido1: '+apellido1+'\tApellido2: '+
+                      apellido2+'\tTelefono: '+telefono) 
+
+
+        if not find:
+            print('\nContacto no encontrado')
+            
         fichero.close()
+        
     except:
-        print('Agenda no encontrada')
+        print('Agenda no encontrada o vacÌa')
 
 def cargar():
-    return 0
+    global listado
+    listado = raw_input('\nIntroduzca la ruta de la agenda: ');
 
 def agenda():
     
@@ -103,13 +115,13 @@ def agenda():
     entrada = 0
     while entrada != '5':
         
-        print '\n1.-A√±adir entrada'
-        print '2.-Borrar entrada'
-        print '3.-Buscar entrada'
-        print '4.-Cargar entrada'
+        print '\n1.-AÒadir contacto'
+        print '2.-Borrar contacto'
+        print '3.-Buscar contacto'
+        print '4.-Cargar agenda'
         print '5.-Salir'
         
-        entrada= raw_input('Elija una opci√≥n: ')
+        entrada= raw_input('Elija una opciÛn: ')
         
         while entrada < '1' or entrada > '5':
             entrada=raw_input('introduce otra vez\n')
