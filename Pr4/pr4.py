@@ -168,15 +168,19 @@ fueron admitidos en dicha carrera en otras universidades.\n'
         
     rows = makedicts(curs, "SELECT * FROM solicitudes WHERE nombre_univ = 'Universidad de Jaen' AND carrera = 'Economia'")
     showformat(rows)
-
+    
     print "\n\nBorrar a todos los estudiantes que solicitaron más de 2 carreras diferentes.\n"
+    
+ 
+    rows = makedicts (curs, 'SELECT id,count(DISTINCT carrera) AS c FROM solicitudes GROUP BY id HAVING c>2')
+    for r in rows:
+        curs.execute('DELETE FROM estudiantes WHERE id = ?',(r['id'], ))
 
-    #Aqui falta poner la ultima consulta
+    rows = makedicts(curs, 'SELECT * FROM estudiantes')
+    showformat(rows)
 
 if __name__ == '__main__':
     
     createDatabase()
     fillDatabase()
     consultas()
-
-    
