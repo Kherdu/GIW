@@ -1,6 +1,12 @@
 # -*- coding: cp1252 -*-
 import sqlite3
 
+def connectDb():
+    conn = sqlite3.connect('model/juegos.sqlite3') 
+    curs = conn.cursor()
+    return conn, curs
+
+
 def createDatabase():
     conn = sqlite3.connect('juegos.sqlite3')
     cur = conn.cursor()
@@ -8,7 +14,7 @@ def createDatabase():
     cur.execute("DROP TABLE IF EXISTS usuario")
     cur.execute("CREATE TABLE usuario \
                 (id INTEGER PRIMARY KEY AUTOINCREMENT, \
-                nick VARCHAR(256), \
+                nick VARCHAR(256) UNIQUE, \
                 password VARCHAR(256), \
                 nombre VARCHAR(256), \
                 dni VARCHAR(10))")
@@ -33,5 +39,7 @@ def createDatabase():
     print "Tabla prestamo creada"
 
     cur.close()
-
     conn.commit()
+
+if __name__ == "__main__":
+    createDatabase()
