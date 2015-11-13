@@ -70,6 +70,78 @@ def do_login():
     response.set_cookie("userNick", user["nick"], secret="asdf")
     response.set_cookie("userId", user["id"], secret="asdf")
     redirect("/inicio")
+	
+	
+	
+	@route('/juego', method="POST")
+def do_addGame():
+    nombre = request.forms.get('nombre')
+    descripcion = request.forms.get('descripcion')
+	disponible = request.forms.get('disponible')
+
+     datos = {"nombre": nombre,
+             "descripcion": descripcion,
+             "disponible": disponible}
+    response.set_cookie("msg", "Juego añadido")
+    usuario.addGame(datos)
+
+    
+    redirect("/inicio")
+@route('/juego', method="POST")
+def do_addLoan():
+    nombre = request.forms.get('juegoPrest')
+    inicio = datetime.datetime.now()
+	fin = inicio + datetime.timedelta(days=7)
+	user = ""
+	if request.get_cookie("userId"):
+        user = str(request.get_cookie("userId"))
+	
+     datos = {"fecha_inicio": inicio,
+			 "fecha_fin": fin,
+             "juego_id": nombre,
+			 "usuario_id": user,
+             "devuelto": disponible}
+    response.set_cookie("msg", "Prestamo añadido")
+    usuario.addLoan(datos)
+
+    
+    redirect("/inicio")
+	
+@route('/juego', method="POST")
+def do_modifyGame():
+    nombre = request.forms.get('nombre')
+    descripcion = request.forms.get('descripcion')
+	disponible = request.forms.get('disponible')
+
+     datos = {"nombre": nombre,
+             "descripcion": descripcion,
+             "disponible": disponible}
+    response.set_cookie("msg", "Juego modificado")
+    usuario.modifyGame(datos)
+
+    
+    redirect("/inicio")
+	
+@route('/juego', method="POST")
+def do_modifyLoan():
+    nombre = request.forms.get('juegoPrest')
+	persona = request.forms.get('personaPrest')
+    inicio = datetime.datetime.now()
+	fin = inicio + datetime.timedelta(days=7)
+
+	
+     datos = {"fecha_inicio": inicio,
+			 "fecha_fin": fin,
+             "juego_id": nombre,
+			 "usuario_id": persona,
+             "devuelto": disponible}
+    response.set_cookie("msg", "Prestamo modificado")
+    usuario.modifyLoan(datos)
+
+    
+    redirect("/inicio")
+	
+	
 
 @route('/inicio', method="GET")
 def inicio():
