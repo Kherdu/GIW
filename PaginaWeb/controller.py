@@ -73,70 +73,101 @@ def do_login():
 	
 	
 	
-	@route('/juego', method="POST")
+##AÑADIR JUEGO
+@route('/juego', method="POST")
 def do_addGame():
     nombre = request.forms.get('nombre')
     descripcion = request.forms.get('descripcion')
-	disponible = request.forms.get('disponible')
+    
+    disponible = request.forms.get('disponible')
 
-     datos = {"nombre": nombre,
+    datos = {"nombre": nombre,
              "descripcion": descripcion,
              "disponible": disponible}
-    response.set_cookie("msg", "Juego aÃ±adido")
-    usuario.addGame(datos)
+    response.set_cookie("msg", "Juego añadido")
+    juego.addGame(datos)
 
     
     redirect("/inicio")
-@route('/juego', method="POST")
+    
+#AÑADIR PRESTAMO
+@route('/prestamo', method="POST")
 def do_addLoan():
     nombre = request.forms.get('juegoPrest')
     inicio = datetime.datetime.now()
-	fin = inicio + datetime.timedelta(days=7)
-	user = ""
-	if request.get_cookie("userId"):
+    disponible = request.forms.get('disponible')
+    fin = inicio + datetime.timedelta(days=7)
+    user = ""
+    if request.get_cookie("userId"):
         user = str(request.get_cookie("userId"))
-	
-     datos = {"fecha_inicio": inicio,
-			 "fecha_fin": fin,
+    
+    datos = {"fecha_inicio": inicio,
+             "fecha_fin": fin,
              "juego_id": nombre,
-			 "usuario_id": user,
+             "usuario_id": user,
              "devuelto": disponible}
-    response.set_cookie("msg", "Prestamo aÃ±adido")
-    usuario.addLoan(datos)
+    response.set_cookie("msg", "Prestamo añadido")
+    prestamo.addLoan(datos)
 
     
     redirect("/inicio")
-	
+
+#ELIMINAR JUEGO
+@route('/juego', method="POST")
+def do_deleteGame():
+    id = request.forms.get('id')
+    
+    datos = {"id": id}
+    response.set_cookie("msg", "Juego eliminado")
+    juego.deleteGame(datos)
+    
+    redirect("/inicio")
+
+
+#ELIMINAR PRESTAMO
+@route('/prestamo', method="POST")
+def do_deleteLoan():
+    id = request.forms.get('id')
+    
+    datos = {"id": id}
+    response.set_cookie("msg", "Prestamo eliminado")
+    prestamo.deleteGame(datos)
+    
+    redirect("/inicio")
+
+#MODIFICAR JUEGO
 @route('/juego', method="POST")
 def do_modifyGame():
     nombre = request.forms.get('nombre')
     descripcion = request.forms.get('descripcion')
-	disponible = request.forms.get('disponible')
+    disponible = request.forms.get('disponible')
 
-     datos = {"nombre": nombre,
+    datos = {"nombre": nombre,
              "descripcion": descripcion,
              "disponible": disponible}
     response.set_cookie("msg", "Juego modificado")
-    usuario.modifyGame(datos)
+    juego.modifyGame(datos)
 
     
     redirect("/inicio")
 	
-@route('/juego', method="POST")
+#MODIFICAR PRESTAMO/RENOVAR EL PRESTAMO
+@route('/prestamo', method="POST")
 def do_modifyLoan():
     nombre = request.forms.get('juegoPrest')
+    
 	persona = request.forms.get('personaPrest')
     inicio = datetime.datetime.now()
 	fin = inicio + datetime.timedelta(days=7)
 
 	
-     datos = {"fecha_inicio": inicio,
+    datos = {"fecha_inicio": inicio,
 			 "fecha_fin": fin,
              "juego_id": nombre,
 			 "usuario_id": persona,
              "devuelto": disponible}
     response.set_cookie("msg", "Prestamo modificado")
-    usuario.modifyLoan(datos)
+    prestamo.modifyLoan(datos)
 
     
     redirect("/inicio")
