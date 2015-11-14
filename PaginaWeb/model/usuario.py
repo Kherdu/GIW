@@ -22,3 +22,5 @@ def insertUsuario(datos):
 
     cur.close()
     conn.commit()
+	
+

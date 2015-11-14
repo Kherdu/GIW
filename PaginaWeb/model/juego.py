@@ -7,23 +7,13 @@ def addGame(datos):
 
     cur.execute('INSERT INTO juego \
                     (nombre, descripcion, disponible) \
-                    VALUES (?, ?, ?)'),
+                    VALUES (?, ?, ?)',
                     (datos[""], datos[""], datos[""]))
 
     cur.close()
-    con.commit()
+    conn.commit()
 
-def addLoan(datos):
-    #id, fecha_inicio, fecha_fin, juego_id, usuario_id, devuelto
-    conn, cur = connectDb()
 
-    cur.execute('INSERT INTO prestamo \
-                    (fecha_inicio, fecha_fin, juego_id, usuario_id, devuelto) \
-                    VALUES (?, ?, ?, ?, ?)'),
-                    (datos[""], datos[""], datos[""], datos[""], datos[""]))
-
-    cur.close()
-    con.commit()
 
 def modifyGame(datos):
     #update table_name SET column1=value1 WHERE ID = id
@@ -31,26 +21,24 @@ def modifyGame(datos):
 
     cur.execute('UPDATE juego \
                     SET nombre = ?, descripcion = ?, disponible = ? \
-                    WHERE id = ?'),
+                    WHERE id = ?',
                     (datos[""], datos[""], datos[""], datos[""]))
 
     cur.close()
-    con.commit()
+    conn.commit()
 
-
-def modifyLoan(datos):
+def deleteGame(datos):
+    #DELETE FROM table_name WHERE [condition];
     conn, cur = connectDb()
 
-    cur.execute('UPDATE prestamo \
-                    SET fecha_inicio = ?, fecha_fin = ?, juego_id =?, usuario_id=?, devuelto=? \
-                    WHERE id = ?'),
-                    (datos[""], datos[""], datos[""], datos[""], datos[""]))
+    cur.execute('DELETE FROM juego \
+                    WHERE id = ?',
+                    (datos[""]))
 
     cur.close()
-    con.commit()
-
+    conn.commit()
 
 def getGameById(id = 0):
     conn, cur = connectDb()
 
-    return makedicts(cur, 'SELECT id FROM usuario WHERE nick = ?', (nick, ))
+    return makedicts(cur, 'SELECT id FROM usuario WHERE id = ?', (id, ))
