@@ -35,19 +35,18 @@ def deleteLoan(datos):
 
     cur.close()
     conn.commit()
-
+    
 def searchAllLoan():
     conn, cur = connectDb()
-
-    cur.execute('SELECT * FROM prestamo' )
-
-    cur.close()
-    conn.commit()
+ 
+    return makedicts(cur,'SELECT * FROM prestamo' )
+    
     
 def searchLoan(data):
     conn, cur = connectDb()
 
-    cur.execute('SELECT * FROM prestamo WHERE ? = ?', (datos["campo"],datos["busqueda"]) )
-
-    cur.close()
-    conn.commit()
+    return makedicts(cur, 'SELECT * FROM prestamo WHERE ? = ?', (datos["campo"],datos["busqueda"]) )
+ 
+    
+    
+    

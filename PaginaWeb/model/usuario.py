@@ -15,19 +15,14 @@ def getUsuarioByNick(nick = ''):
 def insertUsuario(datos):
     conn, cur = connectDb()
     
-    cur.execute('INSERT INTO usuario \
+    return makedicts(cur,'INSERT INTO usuario \
                  (nick, password, nombre, dni) \
                  VALUES (?, ?, ?, ?)',
                 (datos["nick"], datos["password"], datos["nombre"], datos["dni"]))
 
-    cur.close()
-    conn.commit()
 	
 
 def searchAllUser():
     conn, cur = connectDb()
 
-    ccur.execute('SELECT * FROM usuario WHERE ? = ?', (datos["campo"],datos["busqueda"]) )
-
-    cur.close()
-    conn.commit()
+    return makedicts(cur,'SELECT * FROM usuario WHERE ? = ?', (datos["campo"],datos["busqueda"]) )

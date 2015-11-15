@@ -171,8 +171,6 @@ def do_modifyLoan():
 
 @route('/browse', method="GET")
 def do_browseAll():
-    cosa = request.forms.get('browse')
-    
     # buscar en las 3 tabla y juntarlo en un array
     users = usuario.searchAllUser()
     loans = prestamo.searchAllLoan()
@@ -194,11 +192,13 @@ def do_browseElementByField():
            "busqueda": what
            }
     if table=='prestamo':
-        prestamo.searchLoan(datos)
+        reqData=prestamo.searchLoan(datos)
     elif table=='usuario':
-        usuario.searchUser(datos)
+        reqData=usuario.searchUser(datos)
     elif table=='juego':
-        juego.searchGame(datos)
+        reqData=juego.searchGame(datos)
+    
+    #falta llamar a la vista con los datos recuperados (reqData)
     
     
 @route('/inicio', method="GET")
