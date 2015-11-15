@@ -24,3 +24,10 @@ def insertUsuario(datos):
     conn.commit()
 	
 
+def searchAllUser():
+    conn, cur = connectDb()
+
+    ccur.execute('SELECT * FROM usuario WHERE ? = ?', (datos["campo"],datos["busqueda"]) )
+
+    cur.close()
+    conn.commit()

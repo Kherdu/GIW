@@ -73,7 +73,7 @@ def do_login():
 	
 	
 	
-##AÑADIR JUEGO
+# #AÑADIR JUEGO
 @route('/juego', method="POST")
 def do_addGame():
     nombre = request.forms.get('nombre')
@@ -90,21 +90,21 @@ def do_addGame():
     
     redirect("/inicio")
     
-#AÑADIR PRESTAMO
+# AÑADIR PRESTAMO
 @route('/prestamo', method="POST")
 def do_addLoan():
     nombre = request.forms.get('juegoPrest')
     inicio = datetime.datetime.now()
     disponible = request.forms.get('disponible')
     fin = inicio + datetime.timedelta(days=7)
-    user = ""
-    if request.get_cookie("userId"):
-        user = str(request.get_cookie("userId"))
+    user = request.forms.get('personaPrest')
+    dni = request.forms.get('dniPrest')
     
     datos = {"fecha_inicio": inicio,
              "fecha_fin": fin,
              "juego_id": nombre,
-             "usuario_id": user,
+             "usuario_prestado": user,
+             "dni_prestado" : dni,
              "devuelto": disponible}
     response.set_cookie("msg", "Prestamo añadido")
     prestamo.addLoan(datos)
@@ -112,7 +112,7 @@ def do_addLoan():
     
     redirect("/inicio")
 
-#ELIMINAR JUEGO
+# ELIMINAR JUEGO
 @route('/juego', method="POST")
 def do_deleteGame():
     id = request.forms.get('id')
@@ -124,7 +124,7 @@ def do_deleteGame():
     redirect("/inicio")
 
 
-#ELIMINAR PRESTAMO
+# ELIMINAR PRESTAMO
 @route('/prestamo', method="POST")
 def do_deleteLoan():
     id = request.forms.get('id')
@@ -135,7 +135,7 @@ def do_deleteLoan():
     
     redirect("/inicio")
 
-#MODIFICAR JUEGO
+# MODIFICAR JUEGO
 @route('/juego', method="POST")
 def do_modifyGame():
     nombre = request.forms.get('nombre')
@@ -151,16 +151,13 @@ def do_modifyGame():
     
     redirect("/inicio")
 	
-#MODIFICAR PRESTAMO/RENOVAR EL PRESTAMO
+# MODIFICAR PRESTAMO/RENOVAR EL PRESTAMO
 @route('/prestamo', method="POST")
 def do_modifyLoan():
     nombre = request.forms.get('juegoPrest')
-    
-	persona = request.forms.get('personaPrest')
+    persona = request.forms.get('personaPrest')
     inicio = datetime.datetime.now()
-	fin = inicio + datetime.timedelta(days=7)
-
-	
+    fin = inicio + datetime.timedelta(days=7)
     datos = {"fecha_inicio": inicio,
 			 "fecha_fin": fin,
              "juego_id": nombre,
@@ -171,9 +168,39 @@ def do_modifyLoan():
 
     
     redirect("/inicio")
-	
-	
 
+@route('/browse', method="GET")
+def do_browseAll():
+    cosa = request.forms.get('browse')
+    
+    # buscar en las 3 tabla y juntarlo en un array
+    users = usuario.searchAllUser()
+    loans = prestamo.searchAllLoan()
+    games = juego.searchAllGame()
+    
+    allresults = users + loans + games
+    # no estoy seguro de como pasar el array de resultados...
+    
+    # crear vista browse o algo parecido
+    redirect("/browse")
+
+@route('/browseByField', method="POST")
+def do_browseElementByField():
+    
+    table = request.forms.get('tabla')
+    field = request.forms.get('campo')
+    what = request.forms.get('busqueda')
+    datos={"campo": field,
+           "busqueda": what
+           }
+    if table=='prestamo':
+        prestamo.searchLoan(datos)
+    elif table=='usuario':
+        usuario.searchUser(datos)
+    elif table=='juego':
+        juego.searchGame(datos)
+    
+    
 @route('/inicio', method="GET")
 def inicio():
     

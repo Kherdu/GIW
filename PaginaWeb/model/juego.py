@@ -42,3 +42,11 @@ def getGameById(id = 0):
     conn, cur = connectDb()
 
     return makedicts(cur, 'SELECT id FROM usuario WHERE id = ?', (id, ))
+
+def searchAllGame():
+    conn, cur = connectDb()
+
+    cur.execute('SELECT * FROM juego WHERE ? = ?', (datos["campo"],datos["busqueda"]) )
+
+    cur.close()
+    conn.commit()

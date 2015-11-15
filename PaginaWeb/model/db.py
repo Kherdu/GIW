@@ -34,7 +34,8 @@ def createDatabase():
                 fecha_inicio TIMESTAMP, \
                 fecha_fin  TIMESTAMP, \
                 juego_id INTEGER REFERENCES juego, \
-                usuario_id INTEGER REFERENCES usuario, \
+                usuario_prestado VARCHAR (256), \
+                dni_prestado VARCHAR (256),\
                 devuelto INTEGER)")
     print "Tabla prestamo creada"
 
