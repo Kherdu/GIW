@@ -1,6 +1,8 @@
 <!-- Sidebar -->
 <div id="sidebar-wrapper">
+
     <ul class="sidebar-nav">
+    
         <li class="sidebar-brand">
             <a href="#">
                 Préstamo de juegos
@@ -8,25 +10,16 @@
         </li>
         % if data["userType"] == 'logged':
         <li>
-            <a href="#">Dashboard</a>
+            <a href="/juegos">Juegos</a>
         </li>
         <li>
-            <a href="#">Shortcuts</a>
+            <a href="/prestamos">Préstamos</a>
         </li>
         <li>
-            <a href="#">Overview</a>
+            <a href="/buscar">Buscar</a>
         </li>
         <li>
-            <a href="#">Events</a>
-        </li>
-        <li>
-            <a href="#">About</a>
-        </li>
-        <li>
-            <a href="#">Services</a>
-        </li>
-        <li>
-            <a href="#">Contact</a>
+            <a href="/logout"><span class="text-danger">Salir</span></a>
         </li>
         % end
     </ul>

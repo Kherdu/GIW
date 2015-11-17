@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+encoding//model/db.py=cp1252
+encoding/bottle.py=utf-8
+encoding/controller.py=cp1252

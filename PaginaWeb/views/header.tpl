@@ -12,10 +12,13 @@
     <title>Juegos | {{data["title"]}}</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="/css/simple-sidebar.css" rel="stylesheet">
+    <script src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,6 +31,25 @@
 
 <body>
     % include('sidebar.tpl', userType=data["userType"])
+    
     <div id="wrapper">
+    % if data["succ"] != '':
+    <div class="alert alert-success" role="alert">
+        {{data["succ"]}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    % end
+    % if data["err"] != '':
+    <div class="alert alert-danger" role="alert">
+        {{data["err"]}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    % end
      <!-- Page Content -->
         <div id="page-content-wrapper">
+            <h1>{{data["title"]}}</h1>
+        

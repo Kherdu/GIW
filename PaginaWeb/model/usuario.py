@@ -1,28 +1,28 @@
 from db import *
 from makedicts import *
 
-def getUsuarioById(usuarioId = 0):
+def getUserByNick(nick):
     conn, cur = connectDb()
 
-    return makedicts(cur, 'SELECT * FROM usuario WHERE id = ?', (usuarioId, ))
-
-def getUsuarioByNick(nick = ''):
-    conn, cur = connectDb()
-
-    return makedicts(cur, 'SELECT * FROM usuario WHERE nick = ?', (nick, ))
-
-
-def insertUsuario(datos):
-    conn, cur = connectDb()
-    
-    return makedicts(cur,'INSERT INTO usuario \
-                 (nick, password, nombre, dni) \
-                 VALUES (?, ?, ?, ?)',
-                (datos["nick"], datos["password"], datos["nombre"], datos["dni"]))
-
-	
+    return makedicts(cur,'SELECT * FROM usuario WHERE nick = ?', (nick, ))
 
 def searchAllUser():
     conn, cur = connectDb()
 
-    return makedicts(cur,'SELECT * FROM usuario WHERE ? = ?', (datos["campo"],datos["busqueda"]) )
+    return makedicts(cur,'SELECT * FROM usuario WHERE ? = ?')
+
+def insertUsuario(datos):
+    conn, cur = connectDb()
+    
+    cur.execute('INSERT INTO usuario \
+                 (nick, password, nombre, dni) \
+                 VALUES (?, ?, ?, ?)',
+                (datos["nick"], datos["password"], datos["nombre"], datos["dni"]))
+    
+    cur.close()
+    conn.commit();
+    
+def searchUser(data):
+    conn, cur = connectDb()
+
+    return makedicts(cur, "SELECT * FROM usuario WHERE {f} LIKE '%{v}%'".format(f=data["field"], v=data["value"]))  
