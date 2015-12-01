@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>Mongo DB</title>
+		<style>
+			body{
+				font-family: sans-serif;
+			}
+			main{
+				width: 80%;
+				margin: auto;
+			}
+
+			label, fieldset{
+				display: block;
+				width: 100%;
+				margin-top: 25px;
+			}
+
+			input[type="number"], input[type="text"], input[type="email"],input[type="password"], input[type="submit"], textarea{
+				width: 100%;
+				display: block;
+			}
+
+			fieldset > label:first-of-type{
+				margin-top: auto;
+			}
+
+			input[type="submit"]{
+				margin-top: 25px;
+			}
+		</style>
+	<head>
+	<body>
+		<main>
+			<form method="post" action="http://localhost:8080/insert_or_update">
+				<label>Id</label>
+				<input type="text" name="_id"><br>
+				<fieldset>
+					<legend>Adress</legend>
+					<label>Country</label>
+					<input name="country" type="text">
+					<label>Zip</label>
+					<input name="zip" type="text">
+				</fieldset>
+				<label>Email</label>
+				<input name="email" type="email">
+				<label>Gender</label>
+				<input type="radio" name="gender" value="Male" checked=""> Male<br>
+				<input type="radio" name="gender" value="Female"> Female
+				<label>Likes</label>
+				<textarea name="likes" placeholder="Escribe los gustos separados por comas"></textarea>
+				<label>Password</label>
+				<input type="password" name="password">
+				<label>Year</label>
+				<input type="number" name="year">
+				<input type="submit" value="Submit">
+			</form>
+		</main>
+	</body>
+</html>
