@@ -22,7 +22,7 @@ def add_user_post():
     client = MongoClient()
     db = client['giw']    
     
-    _id=request.forms.get('id')
+    _id=request.forms.get('_id')
     country=request.forms.get('country')
     zip=request.forms.get('zip')
     email=request.forms.get('email')
@@ -31,35 +31,40 @@ def add_user_post():
     password=request.forms.get('password')
     year=request.forms.get('year')
     
-    result=db.users.insert_one( { "_id": _id ,
-                            "address": {
-                                "country": country,
-                                "zip": zip
-                            },
-                            "email": email,
-                            "gender": gender,
-                            "likes":likes,
-                            "password":password,
-                            "year":year})
-    result.inserted_id
+    cursor = db.users.find({"_id": _id})
+    
+    if cursor.count() > 0:
+        print "Fallo al insertar. Usuario existente."
+        return "Usuario existente"
+    
+    db.users.insert_one( { "_id": _id ,
+                        "address": {
+                            "country": country,
+                            "zip": zip
+                        },
+                        "email": email,
+                        "gender": gender,
+                        "likes":likes,
+                        "password":password,
+                        "year":year})
+    print "Usuario insertado con exito."
+    return "Usuario insertado con exito."
+    
 	
 @post('/change_email')
-def change_email(cosa1, cosa2):
+def change_email():
+    
     client = MongoClient()
     db = client['giw']
+    _id = request.forms.get('_id')
+    email = request.forms.get('email') 
 
-    #id1 = request.forms.get('id')
-    #email = request.forms.get('email') 
-    id1 = cosa1
-    email = cosa2
-
-    result = db.users.update_one({'_id': id1}, {'$set': {'email': email}})
+    result = db.users.update_one({'_id': _id}, {'$set': {'email': email}})
     
-    print result    
-    print  result.matched_count  
-    pass
+    count = result.matched_count
     client.close()
-    return result.matched_count  
+    
+    return count 
 
 @post('/insert_or_update')
 def insert_or_update():
@@ -111,27 +116,24 @@ def insert_or_update():
 
 
 @post('/delete')
-def delete_id(cosa1):
+def delete_id():
     client = MongoClient()
     db = client['giw']
 
-    #id1 = request.forms.get('id')  
-    id1 = cosa1
+    id1 = request.forms.get('_id')
     result = db.users.delete_one({'_id': id1})   
     
-    pass
     client.close()
     print  result.deleted_count  
     return result.deleted_count  
     
     
 @post('/delete_year')
-def delete_year(cosa1):
+def delete_year():
     client = MongoClient()
     db = client['giw']
 
-    #anio = request.forms.get('year')   
-    anio = cosa1
+    anio = request.forms.get('year')
     cursor = db.users.find({"year": anio})
     contador = 0
     for doc in cursor:        
