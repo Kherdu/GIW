@@ -20,25 +20,27 @@ from pymongo import MongoClient, cursor
 @post('/add_user')
 def add_user_post():
     client = MongoClient()
-	id=request.forms.get('id')
-	country=request.forms.get('country')
-	zip=request.forms.get('zip')
-	email=request.forms.get('email')
-	gender=request.forms.get('gender')
-	likes=request.forms.get('likes').split(',')
-	password=request.forms.get('password')
-	year=request.forms.get('year')
-	
-	result=db.users.insert_one( {
-													"_id": id ,
-													"address": {"country": country,
-																	"zip": zipValue, 
-																	},
-													"email": email,
-													"gender": gender,
-													"likes":likes,
-													"password":password,
-													"year":year})
+    db = client['giw']    
+    
+    _id=request.forms.get('id')
+    country=request.forms.get('country')
+    zip=request.forms.get('zip')
+    email=request.forms.get('email')
+    gender=request.forms.get('gender')
+    likes=request.forms.get('likes').split(',')
+    password=request.forms.get('password')
+    year=request.forms.get('year')
+    
+    result=db.users.insert_one( { "_id": _id ,
+                            "address": {
+                                "country": country,
+                                "zip": zip
+                            },
+                            "email": email,
+                            "gender": gender,
+                            "likes":likes,
+                            "password":password,
+                            "year":year})
     result.inserted_id
 	
 @post('/change_email')
@@ -93,7 +95,7 @@ def insert_or_update():
                                      
     else:
         ret = "Usuario no encontrado. Insertando usuario"
-        result = db.users.insert_one({ "_id": _id, 
+        db.users.insert_one({ "_id": _id, 
                            "address": {"country": country,
                                       "zip": zipValue, 
                                       },
@@ -139,4 +141,5 @@ def delete_year(cosa1):
     print contador
     client.close()
     return contador
+    
 run(host='localhost', port=8080, debug=True)
