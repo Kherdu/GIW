@@ -20,16 +20,16 @@ from pymongo import MongoClient, cursor
 @post('/add_user')
 def add_user_post():
     client = MongoClient()
-    db = client['giw']    
+    db = client["giw"]    
     
-    _id=request.forms.get('_id')
-    country=request.forms.get('country')
-    zip=request.forms.get('zip')
-    email=request.forms.get('email')
-    gender=request.forms.get('gender')
-    likes=request.forms.get('likes').split(',')
-    password=request.forms.get('password')
-    year=request.forms.get('year')
+    _id=request.forms.get("_id")
+    country=request.forms.get("country")
+    zip=request.forms.get("zip")
+    email=request.forms.get("email")
+    gender=request.forms.get("gender")
+    likes=request.forms.get("likes").split(",")
+    password=request.forms.get("password")
+    year=request.forms.get("year")
     
     cursor = db.users.find({"_id": _id})
     
@@ -55,39 +55,39 @@ def add_user_post():
 def change_email():
     
     client = MongoClient()
-    db = client['giw']
-    _id = request.forms.get('_id')
-    email = request.forms.get('email') 
+    db = client["giw"]
+    _id = request.forms.get("_id")
+    email = request.forms.get("email") 
 
-    result = db.users.update_one({'_id': _id}, {'$set': {'email': email}})
+    result = db.users.update_one({"_id": _id}, {"$set": {"email": email}})
     
     count = result.matched_count
     client.close()
     
-    return count 
+    return str(count) 
 
 @post('/insert_or_update')
 def insert_or_update():
     
-    c = MongoClient()
+    client = MongoClient()
     
-    db = c['giw']
+    db = client["giw"]
     
     # Getting post variables
-    _id = request.forms.get('_id')
-    country = request.forms.get('country')
-    zipValue = request.forms.get('zip')
-    email = request.forms.get('email')
-    gender = request.forms.get('gender')
-    likes = request.forms.get('likes').split(',')
-    password = request.forms.get('password')
-    year = request.forms.get('year')
+    _id = request.forms.get("_id")
+    country = request.forms.get("country")
+    zipValue = request.forms.get("zip")
+    email = request.forms.get("email")
+    gender = request.forms.get("gender")
+    likes = request.forms.get("likes").split(",")
+    password = request.forms.get("password")
+    year = request.forms.get("year")
     
     cursor = db.users.find({"_id": _id})
     
     if cursor.count() > 0:
         ret = "Usuario encontrado. Actualizando usuario"
-        db.users.update_one({'_id': _id}, { "$set": 
+        db.users.update_one({"_id": _id}, { "$set": 
                             {"_id": _id, 
                              "address": {"country": country,
                                       "zip": zipValue, 
@@ -118,10 +118,10 @@ def insert_or_update():
 @post('/delete')
 def delete_id():
     client = MongoClient()
-    db = client['giw']
+    db = client["giw"]
 
-    id1 = request.forms.get('_id')
-    result = db.users.delete_one({'_id': id1})   
+    id1 = request.forms.get("_id")
+    result = db.users.delete_one({"_id": id1})   
     
     client.close()
     print  result.deleted_count  
@@ -131,17 +131,17 @@ def delete_id():
 @post('/delete_year')
 def delete_year():
     client = MongoClient()
-    db = client['giw']
+    db = client["giw"]
 
-    anio = request.forms.get('year')
+    anio = request.forms.get("year")
     cursor = db.users.find({"year": anio})
     contador = 0
     for doc in cursor:        
-        result = db.users.delete_one({'_id': doc['_id']})   
+        result = db.users.delete_one({"_id": doc["_id"]})   
         contador = result.deleted_count  + contador
     pass
     print contador
     client.close()
-    return contador
+    return str(contador)
     
 run(host='localhost', port=8080, debug=True)
