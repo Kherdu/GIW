@@ -17,8 +17,7 @@
     </tr>
 </thead>
 % for user in data["users"]:
-   
-    <tr>
+   <tr>
         <td><strong>{{user["_id"]}}</strong></td>
         <td>{{user["email"]}}</td>
     </tr> 
