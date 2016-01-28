@@ -1,0 +1,32 @@
+body{
+    font-family: sans-serif;
+}
+
+.btn{
+	border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    outline: 0;
+    padding: 0 2rem;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    color: #fff;
+    background-color: #26a69a;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+}
+
+.btn img{
+    position: relative;
+    top: 6px;
+    left: -15px;
+}
+
+.red{
+    background-color: #f44336;
+}
